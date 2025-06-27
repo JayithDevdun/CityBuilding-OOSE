@@ -1,0 +1,30 @@
+(b) In my code I used appropriate use of containers to make my code data more efficient and organizable. In my square class I used List<ZoningRule> to apply multiple zoning rules that can be apply to the square dynamically. This container allows the system to associated with flexible number of zoning rules within a single square, enabling it to combine different rules like contamination, clouding, and potentially others in the future. I also used an ArrayList<Square> to hold squares in the grid, so it make me easier to iterate through and  apply rules during initialization or interaction.         
+
+
+(C) In my system I ensured that each class, interface and method has clear and distinct responsibility, with appropriately descriptive name with their purpose. As an example the builder interface define for purpose of city development while concrete classes like UniformBuilder and CentralBuilder define the behaviors of the buildings, how they enhance.
+
+The structureBuilder handles the application of how the zoning rules should apply for given place of grid(structure placement), maintaining single purpose. Also Zoning rules like heightlimit and floodrisk are dividend into two different classes so they can build it's own logic.       
+     
+
+(d) The code perform appropriate error handling and logging by using exceptions and log statements to manage zoning rule violations and terrain constrains. As an example in my builder class I used try and catch statements to manage exceptions. As an another example in the structureBuilder class, the validateZoningRules() method ensures all zoning rules such as heritage or height restrictions are checked before placing a structure, and also report the violation through a message.  
+
+
+(e) In the design of my code I have implemented the strategy pattern for handling different types of zoning rules. The zoning class is a abstract class and the Contamination, FloodRisk, and Heritage are specific types of zoning rules that extend the zoning class. By using this pattern, I can dynamically change the behavior of the zoning rules being applied, allowing modifying different zoning rules without altering the core functionalities of the code. Each zoning type implements it's own unique technique for validation. This design ensures that the flexible and extendable.     
+
+In this code design I didn't use template method pattern directly, but the concept of method indirectly present, especially in the handling of zoning. The zoning class can be seen as a "template", defining the core structure while the sub classes specify the different details and the variation of the behavior of zoning rules. This method also allow us to easy modification and the extension of zoning types without changing the overall structure of the zoning class.
+
+The choice I made to use the strategy pattern because I needed a flexibility of my design. The zoning rules vary based on different criteria such as Contamination, FloodRisk, Heritage. SO I wanted the system to handle those variables dynamically. By having a specific zoning classes for each zoning rule I can add or modify zoning rules easily without modifying the existing classes. 
+
+
+(f) In the design of decorator I applied it indirectly, the square class can be associated with multiple zoning rules. A square can have multiple zoning rules applied to it. As an example a square can have both contamination and heritage zoning rules. This allows user to decorate their squares with additional zoning rules, making the code modular and reusable.
+
+I chose to implement decorator pattern because the design of that enhance modularity and reusability in my system. By allowing each square to be associated with multiple zoning rules you make it easy to dynamically add or modify zoning restrictions without altering the core Square class. This pattern applies in the run time so I can change the zoning rules and make easy changes to my system. As an example I first create the square then decorate it by applying the heritage rule and contamination rule, it's modify the squares state at the run time. 
+
+
+
+
+
+
+
+
+                  

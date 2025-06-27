@@ -1,0 +1,222 @@
+<?xml version="1.0"?>
+
+<!--
+
+STOP! If you edit this file, you could LOSE MARKS on the assignments!
+
+
+Unsure how to address PMD's messages?
+=====================================
+
+1. Understand that PMD's messages are _code quality warnings_, not errors. Your code has compiled,
+   and it may even run fine.
+2. Understand what the message(s) are telling you. Look up the warning labels at
+   https://pmd.github.io/pmd/pmd_rules_java.html. Read the documentation there. If you don't
+   understand it, ask the teaching staff.
+3. Decide whether it's actually a problem in your code, or if PMD is wrong. (PMD is wrong in
+   certain cases. That's why you need to understand!)
+4. If it's a problem in your code, fix it.
+5. If PMD is wrong, then:
+    (a) Suppress the warning, by adding an appropriate @SuppressWarning annotation, or //NOPMD
+        comment to the _specific location_ where the warning is triggered.
+        See https://pmd.github.io/pmd/pmd_userdocs_suppressing_warnings.html.
+    (b) Explain why you've done this using in-code comments.
+
+
+What is this file?
+==================
+
+This is a PMD "ruleset". It specifies what PMD should check for (from among all the things it can
+check for), curated to suit this unit.  If you comment out a <rule.../> declaration, it will stop
+PMD checking that rule. However, markers will use their own version of this file.
+
+See https://pmd.github.io/pmd/pmd_userdocs_making_rulesets.html for general information.
+
+
+Unsure how to setup and run PMD?
+================================
+
+Most sample code in this unit is already set up to make Gradle run PMD when you invoke the "build"
+or "check" tasks; e.g.:
+
+$ ./gradlew build
+
+If it becomes necessary to set it up yourself, just ensure your build.gradle file contains the following:
+
+plugins {
+    ...
+    id 'pmd'
+}
+...
+pmd {
+    consoleOutput = true
+    toolVersion = '7.0.0-rc4' // Or whichever version the unit requires
+    rulesMinimumPriority = 5
+    ruleSets = []
+    ruleSetFiles = files('saed-pmd-rules.xml')
+}
+
+Ensure there's a copy of this file in the same directory(ies) as build.gradle.
+
+-->
+
+<ruleset name="OOSE PMD Rules"
+         xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
+
+    <description>
+        PMD rules for Object Oriented Software Engineering
+    </description>
+
+    <exclude-pattern>.*/(build|bin)/.*</exclude-pattern>
+
+    <!-- Throwing exceptions -->
+    <rule ref="category/java/design.xml/AvoidThrowingRawExceptionTypes" />
+    <rule ref="category/java/design.xml/AvoidThrowingNullPointerException" />
+    <rule ref="category/java/errorprone.xml/DoNotThrowExceptionInFinally" />
+
+    <!-- Catching exception types -->
+    <rule ref="category/java/errorprone.xml/AvoidCatchingThrowable" />
+    <rule ref="category/java/design.xml/AvoidCatchingGenericException" />
+    <rule ref="category/java/errorprone.xml/AvoidCatchingNPE" />
+
+    <!-- Catch blocks -->
+    <rule ref="category/java/errorprone.xml/EmptyCatchBlock" />
+    <rule ref="category/java/errorprone.xml/AvoidInstanceofChecksInCatchClause" />
+    <rule ref="category/java/errorprone.xml/AvoidLosingExceptionInformation" />
+    <rule ref="category/java/bestpractices.xml/AvoidPrintStackTrace" />
+    <rule ref="category/java/bestpractices.xml/AvoidReassigningCatchVariables" />
+    <rule ref="category/java/bestpractices.xml/PreserveStackTrace"
+          message="When throwing an exception from inside a catch block, pass the original exception object as a ''cause'' argument to the new exception constructor. This lets the new exception remember the entire stack trace." />
+    <rule ref="category/java/codestyle.xml/IdenticalCatchBranches" />
+    <rule ref="category/java/design.xml/AvoidThrowingNewInstanceOfSameException" />
+
+    <!-- Throw declarations -->
+    <rule ref="category/java/design.xml/SignatureDeclareThrowsException">
+        <properties>
+            <property name="IgnoreJUnitCompletely" value="false" />
+        </properties>
+    </rule>
+
+    <!-- New exception types -->
+    <rule ref="category/java/errorprone.xml/DoNotExtendJavaLangThrowable" />
+    <rule ref="category/java/design.xml/DoNotExtendJavaLangError" />
+
+    <!-- VM -->
+    <rule ref="category/java/errorprone.xml/DoNotTerminateVM" />
+
+    <!-- Almost certainly erroneous -->
+    <rule ref="category/java/errorprone.xml/BrokenNullCheck" />
+    <rule ref="category/java/errorprone.xml/ComparisonWithNaN" />
+    <rule ref="category/java/errorprone.xml/ClassCastExceptionWithToArray" />
+
+    <!-- Cloning -->
+    <rule ref="category/java/errorprone.xml/CloneMethodMustBePublic" />
+    <rule ref="category/java/errorprone.xml/CloneMethodReturnTypeMustMatchClassName" />
+
+    <!-- Scoping -->
+    <rule ref="category/java/design.xml/SingularField" />
+    <rule ref="category/java/bestpractices.xml/UnusedAssignment" />
+    <rule ref="category/java/bestpractices.xml/UnusedFormalParameter" />
+    <rule ref="category/java/bestpractices.xml/UnusedLocalVariable" />
+    <rule ref="category/java/bestpractices.xml/UnusedPrivateField" />
+    <rule ref="category/java/bestpractices.xml/UnusedPrivateMethod" />
+    <rule ref="category/java/codestyle.xml/CommentDefaultAccessModifier"
+          message="Write ''private'', ''protected'' or ''public'', unless you _really intend_ to use default package-private access, in which case you should write ''/* default */''."/>
+    <rule ref="category/java/codestyle.xml/NoPackage" />
+    <!-- <rule ref="category/java/codestyle.xml/PrematureDeclaration" /> -->
+    <rule ref="category/java/codestyle.xml/TooManyStaticImports" />
+    <rule ref="category/java/design.xml/FinalFieldCouldBeStatic" />
+
+    <!--
+    Disabling this as it can give spurious results when PMD is run in standalone form. (If the code
+    includes 'external.package.*', PMD won't know what classes are actually inside it, so it can't
+    know whether it's being used or not.)
+
+    <rule ref="category/java/codestyle.xml/UnnecessaryImport" />
+    -->
+
+    <!-- Resources -->
+    <rule ref="category/java/errorprone.xml/CloseResource">
+        <properties>
+            <!-- Permit new Scanner(System.in) _without_ closing -->
+            <property name="violationSuppressXPath"
+                      value=".[pmd-java:typeIs('java.util.Scanner')]/../ConstructorCall/ArgumentList/FieldAccess[@Name='in']/TypeExpression/ClassOrInterfaceType[@SimpleName='System']" />
+        </properties>
+    </rule>
+    <rule ref="category/java/bestpractices.xml/UseTryWithResources" />
+
+    <!-- Objects -->
+    <rule ref="category/java/errorprone.xml/CompareObjectsWithEquals" />
+    <rule ref="category/java/errorprone.xml/EqualsNull" />
+    <rule ref="category/java/codestyle.xml/UnnecessaryBoxing" />
+    <!-- <rule ref="category/java/bestpractices.xml/AccessorClassGeneration" /> -->
+
+    <!-- Inheritance -->
+    <rule ref="category/java/errorprone.xml/ConstructorCallsOverridableMethod" />
+    <rule ref="category/java/bestpractices.xml/AbstractClassWithoutAbstractMethod" />
+    <rule ref="category/java/bestpractices.xml/MissingOverride" />
+    <rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass" />
+    <rule ref="category/java/codestyle.xml/AvoidProtectedMethodInFinalClassNotExtending" />
+    <rule ref="category/java/codestyle.xml/EmptyMethodInAbstractClassShouldBeAbstract" />
+    <rule ref="category/java/codestyle.xml/ExtendsObject" />
+    <rule ref="category/java/design.xml/AbstractClassWithoutAnyMethod" />
+
+    <!-- Typing -->
+    <rule ref="category/java/bestpractices.xml/LooseCoupling" />
+    <rule ref="category/java/codestyle.xml/UnnecessaryCast" />
+    <!-- <rule ref="category/java/codestyle.xml/UnnecessaryModifier" /> -->
+    <rule ref="category/java/codestyle.xml/UseDiamondOperator" />
+
+    <!-- Naming Conventions -->
+    <rule ref="category/java/codestyle.xml/ClassNamingConventions" />
+    <rule ref="category/java/codestyle.xml/FieldNamingConventions" >
+        <properties>
+            <!-- Permit a static final field named 'logger' (where normally static final fields
+            are constants and hence named in UPPERCASE. -->
+            <property name="violationSuppressXPath"
+                      value=".[pmd-java:typeIs('java.util.logging.Logger')]" />
+        </properties>
+    </rule>
+    <rule ref="category/java/codestyle.xml/FormalParameterNamingConventions" />
+    <rule ref="category/java/codestyle.xml/GenericsNaming" />
+    <rule ref="category/java/codestyle.xml/LinguisticNaming" />
+    <rule ref="category/java/codestyle.xml/LocalVariableNamingConventions" />
+    <rule ref="category/java/codestyle.xml/MethodNamingConventions" />
+    <rule ref="category/java/codestyle.xml/PackageCase" />
+    <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName" />
+
+    <!-- Suspicious control constructs -->
+    <rule ref="category/java/errorprone.xml/AvoidBranchingStatementAsLastInLoop" />
+    <rule ref="category/java/codestyle.xml/EmptyControlStatement" />
+    <rule ref="category/java/errorprone.xml/ImplicitSwitchFallThrough" />
+    <rule ref="category/java/bestpractices.xml/AvoidReassigningLoopVariables" />
+    <rule ref="category/java/bestpractices.xml/DefaultLabelNotLastInSwitchStmt" />
+    <rule ref="category/java/bestpractices.xml/SwitchStmtsShouldHaveDefault" />
+    <rule ref="category/java/bestpractices.xml/WhileLoopWithLiteralBoolean" />
+    <rule ref="category/java/codestyle.xml/ConfusingTernary" />
+    <rule ref="category/java/codestyle.xml/ControlStatementBraces" />
+    <rule ref="category/java/codestyle.xml/ForLoopShouldBeWhileLoop" />
+    <rule ref="category/java/codestyle.xml/UnnecessaryReturn" />
+
+    <!-- Inefficient control constructs -->
+    <rule ref="category/java/bestpractices.xml/ForLoopCanBeForeach" />
+
+    <!-- Statistical -->
+    <rule ref="category/java/design.xml/ExcessiveParameterList" />
+    <rule ref="category/java/design.xml/ExcessivePublicCount" />
+
+    <!-- Unusual extra -->
+    <rule ref="category/java/errorprone.xml/AvoidCallingFinalize" />
+    <rule ref="category/java/errorprone.xml/DontImportSun" />
+    <rule ref="category/java/errorprone.xml/IdempotentOperations" />
+    <rule ref="category/java/codestyle.xml/AvoidDollarSigns" />
+    <rule ref="category/java/codestyle.xml/UnnecessaryAnnotationValueElement" />
+
+    <!-- Logging -->
+    <!-- rule ref="category/java/bestpractices.xml/SystemPrintln" / -->
+    <rule ref="category/java/bestpractices.xml/GuardLogStatement"
+          message="Use lambda expressions ('() -> ...') when building a log message from variable values." />
+
+</ruleset>

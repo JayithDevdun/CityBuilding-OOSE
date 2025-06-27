@@ -1,0 +1,44 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'pmd'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.3'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+application {
+    mainClass = 'edu.curtin.app.App'
+}
+
+compileJava {
+    options.compilerArgs << '-Xlint:all,-serial'
+}
+
+tasks.run.configure {
+    standardInput = System.in
+    systemProperties['java.util.logging.config.file'] = 'logging.properties'
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+        events "failed"
+        exceptionFormat "full"
+    }
+}
+
+pmd {
+    consoleOutput = true
+    toolVersion = '7.3.0'
+    rulesMinimumPriority = 5
+    ruleSets = []
+    ruleSetFiles = files('oose-pmd-rules.xml')
+}

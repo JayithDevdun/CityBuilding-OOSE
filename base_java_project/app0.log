@@ -1,0 +1,10 @@
+Apr 20, 2025 6:01:09 AM edu.curtin.app.App main
+INFO: City Planner Tool starting - Experimental Version
+Apr 20, 2025 6:01:09 AM edu.curtin.app.App main
+INFO: Loading grid from: grid-3
+Apr 20, 2025 6:01:09 AM edu.curtin.app.city.FileParser parseFromFile
+INFO: Parsing grid file: grid-3
+Apr 20, 2025 6:01:09 AM edu.curtin.app.city.FileParser parseFromFile
+WARNING: Successfully parsed grid with
+Apr 20, 2025 6:01:09 AM edu.curtin.app.App main
+INFO: Grid loaded successfully. Size: 1x3

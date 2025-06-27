@@ -1,0 +1,13 @@
+4,3
+flat,flood-risk=49.946552
+swampy,flood-risk=43.635280,heritage=wood
+flat,heritage=wood
+flat
+flat,heritage=wood,contamination
+swampy,flood-risk=41.534353,heritage=wood
+flat
+flat,heritage=stone
+swampy,heritage=wood,flood-risk=34.581390,height-limit=24
+rocky,heritage=brick
+flat,heritage=stone
+flat,height-limit=22
